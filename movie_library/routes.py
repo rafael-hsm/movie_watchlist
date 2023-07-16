@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, render_template, session, redirect, request, url_for
+from flask import abort, Blueprint, current_app, render_template, session, redirect, request, url_for
 
 from movie_library.forms import MovieForm
 from movie_library.models import Movie
@@ -43,14 +43,20 @@ def add_movie():
         
         current_app.db.movie_collection.insert_one(asdict(movie))
         
-        return redirect(url_for('.index'))
+        return redirect(url_for('.movie', _id=movie._id))
     
     return render_template(
         'new_movie.html',
         title='Movies Watchlist - Add Movie',
         form=form
     )
-    
+
+
+@pages.get('/movie/<string:_id>')
+def movie(_id: str):
+    movie = Movie(**current_app.db.movie_collection.find_one({'_id': _id}))
+    return render_template('movie_details.html', movie=movie)
+
 
 @pages.get('/toogle-theme')
 def toggle_theme():

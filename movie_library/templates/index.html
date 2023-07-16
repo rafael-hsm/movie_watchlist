@@ -27,7 +27,8 @@
                             <p class="table__movieDirector">{{ movie.director }}</p>
                         </td>
                         <td class="table__cell">{{ movie.year }}</td>
-                        <td class="table__cell"><a href="#" class="table__link">View</a></td>
+                        <td class="table__cell"><a href="{{ url_for('pages.movie', _id=movie.
+                            _id )}}" class="table__link">View</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
