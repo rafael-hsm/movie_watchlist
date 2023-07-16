@@ -14,7 +14,13 @@ def create_app():
     app.config["SECRET_KEY"] = os.environ.get(
         "SECRET_KEY", "pf9Wkove4IKEAXvy-cQkeDPhv9Cb3Ag-wyJILbq_dFw"
     )
-    app.db = MongoClient(app.config["MONGODB_URI"])
-
+    
+    client = MongoClient(app.config["MONGODB_URI"])
+    
+    # Selecionando o banco de dados 'Movie_Watchlist'
+    app.db = client["Movie_Watchlist"]
+    
+    # Registrando o blueprint 'pages'
     app.register_blueprint(pages)
+    
     return app

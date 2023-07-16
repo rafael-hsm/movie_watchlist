@@ -1,0 +1,107 @@
+.form {
+    margin: 0 auto;
+    max-width: 30rem;
+    border: var(--border);
+    font-size: 1.2rem;
+
+    background: var(--background-color);
+
+    box-shadow: 0.75rem 0.75rem 0 -0.4rem var(--accent-colour);
+
+}
+
+.form__container {
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+}
+
+/* The following media queries allow for more padding inside the form as the window
+size increases */
+@media screen and (min-width: 24.75em) {
+    .form__container {
+        padding-left: 2rem;
+    }
+}
+
+@media screen and (min-width: 30em) {
+    .form__container {
+        padding-left: 2.5rem;
+    }
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form__label {
+    margin-bottom: 0.5rem;
+}
+
+.form__field {
+    outline: none;
+    border: none;
+
+    border-bottom: 3px solid #fff;
+
+    font-size: inherit;
+    font-family: inherit;
+
+    padding: 0.75 0.5rem;
+
+    background: var(--background-color);
+}
+
+.form__field:focus {
+    border-bottom: var(--border);
+}
+
+.button--form {
+    margin: 2rem 0 0 auto;
+    padding: 0.75rem 3rem;
+    border: none;
+    background: var(--background-color);
+}
+
+.button--form:hover {
+    background-color: var(--background-color-hover);
+}
+
+.form__small {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+}
+
+.form__link {
+    text-decoration: none;
+    color: var(--accent-colour);
+}
+
+.form__link:hover {
+    color: #d05656;
+}
+
+.form__error {
+    margin-top: 0.5rem;
+}
+
+.form__error,
+.form__flash {
+    display: block;
+    padding: 0.5rem;
+    color: var(--text);
+}
+
+.form__error,
+.form__flash--danger {
+    background: var(--accent-colour);
+}
+
+.form__flash {
+    margin: 0.5rem;
+}
+
+.form__flash--success {
+    background: var(--accent-colour-2);
+}
+
