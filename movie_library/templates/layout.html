@@ -1,7 +1,8 @@
 {% from 'macros/nav.html' import header %}
+{% from 'macros/footer.html' import footer %}
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="{{ 'dark-mode' if session.get('theme') == 'dark'}}">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,10 +16,11 @@
     </head>
     
     <body>
-        {{ header('2', '') }}
+        {{ header(session.get('email'), session.get('theme')) }}
 
         <main class="main">
             {% block main_content %} {% endblock %}
         </main>
+        {{ footer() }}
     </body>
 </html>

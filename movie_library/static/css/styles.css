@@ -1,14 +1,27 @@
 :root {
-    --text-dark: #000;
-    --text-light: #fbf2f2;
-    --text-muted: #595959;
-  
-    --background-color: #fff;
-    --accent-colour: #f56565;
-    --accent-colour-2: #3bb54a;
-    --tag-colour: #e5e5e5;
-  
-    --border: 3px solid #000;
+  --text-dark: #000;
+  --text-light: #fbf2f2;
+  --text-muted: #595959;
+
+  --background-color: #fff;
+  --accent-colour: #f56565;
+  --accent-colour-2: #3bb54a;
+  --tag-colour: #e5e5e5;
+
+  --border: 3px solid #000;
+}
+
+:root.dark-mode {
+  --text-dark: #fbf2f2;
+  --text-light: #000;
+  --text-muted: #595959;
+
+  --background-color: #1c2023;
+  --accent-colour: #f56565;
+  --accent-colour-2: #3bb54a;
+  --tag-colour: var(--accent-colour-2);
+
+  --border: 3px solid #fff;
 }
 
 .button {
@@ -46,11 +59,24 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   /* Sets the shared font characteristics, so that that they can be inherited globally */
   font-family: "Public Sans", sans-serif;
   color: var(--text-dark);
   line-height: 1.45;
   background-color: var(--background-color);
+}
+
+.main {
+  flex-grow: 1;
+  padding: 3rem 1.5rem 2rem 1.5rem;
+}
+
+@media screen and (min-width: 30rem) {
+  .main {
+    padding-top: 5rem;
+  }
 }
 
 .header {
@@ -124,6 +150,12 @@ body {
 .nav__icon {
   width: 1em;
   height: 1em;
+}
+
+.footer {
+  padding: 1rem 0;
+  color: var(--text-muted);
+  text-align: center;
 }
 
 /* Button styles that we'll share across our site */
