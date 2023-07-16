@@ -1,1 +1,8 @@
 flask
+gunicorn
+python-dotenv
+flask-wtf
+pymongo
+flask-security
+email_validator
+passlib
