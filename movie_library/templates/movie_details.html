@@ -13,7 +13,11 @@
                 <div class="movie__name">
                     <h1>{{ movie.title }}</h1>
                     <div class="movie__rating">
-                        {{ movie.rating }}
+                        {% for i in range(5) %}
+                            <a class="rating__link" href="#">
+                                {{ star("star") }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
