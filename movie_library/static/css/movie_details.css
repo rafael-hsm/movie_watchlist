@@ -32,10 +32,18 @@
     color: unset;
 }
 
-.start {
+.rating__link:not(:first-of-type) {
+    margin-left: 2px;
+}
+
+.star {
     width: 1.5em;
     height: 1.5em;
     fill: none;
+}
+
+.star--filled {
+    fill: #ffd02a;
 }
 
 .movie__watched {

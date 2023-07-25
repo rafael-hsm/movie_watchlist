@@ -14,8 +14,8 @@
                     <h1>{{ movie.title }}</h1>
                     <div class="movie__rating">
                         {% for i in range(5) %}
-                            <a class="rating__link" href="#">
-                                {{ star("star") }}
+                            <a class="rating__link" href="{{ url_for('pages.rate_movie', _id=movie._id, rating=i+1) }}">
+                                {{ star("star " + ("star--filled" if movie.rating > i else "")) }}
                             </a>
                         {% endfor %}
                     </div>
@@ -24,14 +24,14 @@
             <div class="movie__watched">
                 {% if movie.last_watched %}
                 <p>
-                    Last watched: <a href="#" class="watched__link">
+                    Last watched: <a href="{{  url_for('pages.watch_today', _id=movie._id) }}" class="watched__link">
                         <time datetime="{{ movie.last_watched }}">{{ movie.last_watched.strftime('%d %b %Y') }}</time>
                     </a>
                 </p>
                 {% else %}
-                <p><a href="#" class="watched__link">Not watched yet</a></p>
+                <p><a href="{{  url_for('pages.watch_today', _id=movie._id) }}" class="watched__link">Not watched yet</a></p>
                 {% endif %}
-                <a class="movie__edit" href="#">Edit {{ pencil('pencil') }}</a>
+                <a class="movie__edit" href="{{ url_for('pages.edit_movie', _id=movie._id) }}">Edit {{ pencil('pencil') }}</a>
             </div>
             <div class="header__row">
                 <ul class="movie__tags">

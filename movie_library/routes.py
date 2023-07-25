@@ -1,7 +1,18 @@
-from flask import abort, Blueprint, current_app, render_template, session, redirect, request, url_for
+import datetime
 
-from movie_library.forms import MovieForm
-from movie_library.models import Movie
+from flask import (
+    Blueprint,
+    current_app,
+    render_template,
+    session,
+    redirect,
+    request,
+    url_for,
+    flash)
+
+from movie_library.forms import ExtendedMovieForm, MovieForm, RegisterForm, LoginForm
+from movie_library.models import Movie, User
+from passlib.hash import pbkdf2_sha256
 
 from dataclasses import asdict
 
@@ -29,13 +40,66 @@ def index():
     )
 
 
+@pages.route("/register", methods=['GET', 'POST'])
+def register():
+    if session.get("email"):
+        return redirect(url_for(".index"))
+    
+    form = RegisterForm()
+        
+    if form.validate_on_submit():
+        user = User(
+            _id = uuid.uuid4().hex,
+            email=form.email.data,
+            password=pbkdf2_sha256.hash(form.password.data),
+        )
+        
+        current_app.db.user.insert_one(asdict(user))
+        
+        flash("User registered successfully", "success")
+        
+        return redirect(url_for(".login"))
+    
+    return render_template(
+        "register.html",
+        title="Movies Watchlist - Register",
+        form=form
+    )
+
+
+@pages.route("/login", methods=["GET", "POST"])
+def login():
+    if session.get("email"):
+        return redirect(url_for(".index"))
+    
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        user_data = current_app.db.user.find_one({"email": form.email.data})
+        if not user_data:
+            flash("Login credentials not correct", category="danger")
+            return redirect(url_for(".login"))
+        
+        user = User(**user_data)
+        
+        if user and pbkdf2_sha256.verify(form.password.data, user.password):
+            session["user_id"] = user.user_id
+            session["email"] = user.email
+            
+            return redirect(url_for(".index"))
+        
+        flash("Login credentials not correct", category="danger")
+    
+    return render_template("login.html", title="Movie Watchlist - Login", form=form)
+
+
 @pages.route('/add', methods=['GET', 'POST'])
 def add_movie():
     form = MovieForm()
     
     if form.validate_on_submit():
         movie = Movie(
-            _id= uuid.uuid4().hex,
+            _id = uuid.uuid4().hex,
             title= form.title.data,
             director= form.director.data,
             year= form.year.data
@@ -50,6 +114,26 @@ def add_movie():
         title='Movies Watchlist - Add Movie',
         form=form
     )
+    
+
+@pages.route("/edit/<string:_id>", methods=['GET', 'POST'])
+def edit_movie(_id: str):
+    movie = Movie(**current_app.db.movie_collection.find_one({"_id": _id}))
+    form = ExtendedMovieForm(obj=movie)
+    if form.validate_on_submit():
+        movie.title = form.title.data
+        movie.description = form.description.data
+        movie.year = form.year.data
+        movie.cast = form.cast.data
+        movie.series = form.series.data
+        movie.tags= form.tags.data
+        movie.description = form.description.data
+        movie.video_link = form.video_link.data
+
+        current_app.db.movie_collection.update_one({"_id": movie._id}, {"$set": asdict(movie)})
+
+        return redirect(url_for(".movie", _id=movie._id))
+    return render_template("movie_form.html", movie=movie, form=form)
 
 
 @pages.get('/movie/<string:_id>')
@@ -57,6 +141,21 @@ def movie(_id: str):
     movie = Movie(**current_app.db.movie_collection.find_one({'_id': _id}))
     return render_template('movie_details.html', movie=movie)
 
+
+@pages.get("/movie/<string:_id>/rate")
+def rate_movie(_id):
+    rating = int(request.args.get("rating"))
+    current_app.db.movie_collection.update_one({"_id": _id}, {"$set": {"rating": rating}})
+    
+    return redirect(url_for(".movie", _id=_id))
+
+
+@pages.get("/movie/<string:_id>/watch")
+def watch_today(_id):
+    current_app.db.movie_collection.update_one({"_id": _id}, {"$set": {"last_watched": datetime.datetime.today()}})
+    
+    return redirect(url_for(".movie", _id=_id))
+    
 
 @pages.get('/toogle-theme')
 def toggle_theme():

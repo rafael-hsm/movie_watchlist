@@ -10,10 +10,10 @@
         </a>
         <nav class="nav">
             {% if not email %}
-                <a href="#" class="nav__link">
+                <a href="{{ url_for('pages.login') }}" class="nav__link {{ 'nav__link--active' if request.path==url_for('pages.login') }}">
                     <span class="nav__item">Log in</span>
                 </a>
-                <a href="#" class="nav__link">
+                <a href="{{ url_for('pages.register') }}" class="nav__link {{ 'nav__link--active' if request.path==url_for('pages.register') }}">
                     <span class="nav__item">Register</span>
                 </a>
             {% else %}
