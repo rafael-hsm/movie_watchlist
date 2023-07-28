@@ -22,5 +22,5 @@ class User:
     _id: str
     email: str
     password: str
-    movies: list[str] = field(default_factory=list)
+    movies: List[str] = field(default_factory=list)
     
