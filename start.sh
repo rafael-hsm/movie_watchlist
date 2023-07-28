@@ -1,2 +1,2 @@
 #!/bin/bash
-gunicorn -c gunicorn.py "app:create_app()"
+gunicorn movie_library:app -b 0.0.0.0:$PORT --timeout 600
