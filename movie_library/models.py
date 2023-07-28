@@ -13,7 +13,7 @@ class Movie:
     last_watched: datetime = None
     rating: int = 0
     tags: List[str] = field(default_factory=list)
-    description: str = None
+    description: List[str] = field(default_factory=list)
     video_link: str = None
 
 
