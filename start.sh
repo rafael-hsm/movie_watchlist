@@ -1,2 +1,2 @@
 #!/bin/bash
-gunicorn movie_library:app -b 0.0.0.0:$PORT --timeout 600
+gunicorn movie_library:create_app --bind 0.0.0.0:8000
