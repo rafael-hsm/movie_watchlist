@@ -111,8 +111,6 @@ def logout():
     current_theme = session.get("theme")
     session.clear()
     session["theme"] = current_theme
-    del session["user_id"]
-    del session["email"]
         
     return redirect(url_for(".login"))
 
