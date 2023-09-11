@@ -16,6 +16,8 @@
 ## Notes
 Remember you need create a file with name .env into movie_library and set your MONGODB_URI= to run it locally.
 
+![Movie_Watchlist](https://github.com/rafael-hsm/movie_watchlist/blob/main/movie_library/static/img/movie_watchlist.png)
+
 # References
 https://python-web.teclado.com/section14/lectures/01_project_overview_css_variables/
 https://www.joshwcomeau.com/css/custom-css-reset/
